@@ -49,9 +49,10 @@ class Todo
     }
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(): static
     {
-        $this->createdAt = $createdAt;
+
+        $this->createdAt = new \DateTimeImmutable('now');
 
         return $this;
     }
@@ -61,9 +62,9 @@ class Todo
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(): static
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTimeImmutable('now');
 
         return $this;
     }
