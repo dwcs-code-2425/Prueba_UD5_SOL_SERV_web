@@ -42,13 +42,12 @@ class Todo
 
         return $this;
     }
-    #[ORM\PrePersist]
+   
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
     #[ORM\PrePersist]
-    #[ORM\PreUpdate]
     public function setCreatedAt(): self
     {
 
@@ -61,7 +60,8 @@ class Todo
     {
         return $this->updatedAt;
     }
-
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function setUpdatedAt(): self
     {
         $this->updatedAt = new \DateTimeImmutable('now');
