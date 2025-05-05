@@ -6,6 +6,7 @@ use App\Repository\TodoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TodoRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Todo
 {
     #[ORM\Id]
@@ -23,7 +24,7 @@ class Todo
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
-    private ?bool $completed = null;
+    private ?bool $completed = false;
 
     public function getId(): ?int
     {
@@ -41,12 +42,13 @@ class Todo
 
         return $this;
     }
-
+    #[ORM\PrePersist]
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
-
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
