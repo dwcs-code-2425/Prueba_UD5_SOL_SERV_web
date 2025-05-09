@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Todo;
+use App\Model\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,10 +13,34 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TodoRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private EntityManagerInterface $em)
     {
         parent::__construct($registry, Todo::class);
     }
+
+    public function save(Todo $todo, bool $flush){
+        $this->em->persist($todo);
+        if($flush){
+            $this ->em->flush();
+        }
+    }
+
+    public function remove(Todo $todo, bool $flush){
+        $this->em->remove($todo);
+        if($flush){
+            $this ->em->flush();
+        }
+    }
+
+    public function findAllWithPagination(int $page): Paginator
+{
+    $query = $this->createQueryBuilder('t')->orderBy('t.createdAt', 'ASC');
+
+    return new Paginator($query, $page);
+}
+
+
+    
 
     //    /**
     //     * @return Todo[] Returns an array of Todo objects
