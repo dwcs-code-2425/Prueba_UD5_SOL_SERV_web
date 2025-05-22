@@ -39,6 +39,14 @@ class TodoRepository extends ServiceEntityRepository
     return new Paginator($query, $page);
 }
 
+public function findByTitle(string $title):array{
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.title = :val')
+            ->setParameter('val', $title)
+            ->orderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+}
 
     
 

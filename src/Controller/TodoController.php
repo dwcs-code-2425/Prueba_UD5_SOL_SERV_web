@@ -132,5 +132,19 @@ final class TodoController extends AbstractController
         }
     }
 
+    #[Route("/todos/title/{title}", "find_by_title", methods: ["GET"])]
+    public function getTodoByTitle(string $title, TodoRepository $todoRepository)
+    {
+        try {
+            $todos = $todoRepository->findByTitle($title);
+
+            $response["allowed"] = !(count($todos) > 0);
+            return $this->json($response);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+
+        }
+    }
+
 
 }
