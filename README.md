@@ -1,0 +1,1 @@
+# 3- Engade no README.md o formato da URL e método HTTP necesario para facer a consulta do apartado 1
